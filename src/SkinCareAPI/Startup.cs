@@ -16,6 +16,8 @@ namespace SkinCareAPI
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            //registers services to enable the use of controllers throughout app
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -30,10 +32,13 @@ namespace SkinCareAPI
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                //MapControllers to endpoints to make sure of the controller services registered
+                //in the configureServices, as endpoints in the request pipeline
+                endpoints.MapControllers();
+                // endpoints.MapGet("/", async context =>
+                // {
+                //     await context.Response.WriteAsync("Hello World!");
+                // });
             });
         }
     }
