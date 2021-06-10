@@ -9,12 +9,8 @@ namespace SkinCareAPI.Models
         public int Id {get; set;}
 
         [Required]
-        public string Ingredient {get; set;}
+        public string IngredientName {get; set;}
 
-        [Required]
-        public string Purpose {get; set;}
-
-        [Required]
         public string Contain {get; set;}
 
         public string Source {get; set;}
