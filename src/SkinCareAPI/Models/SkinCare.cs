@@ -13,6 +13,8 @@ namespace SkinCareAPI.Models
 
         public string Contain {get; set;}
 
+        public string ReasonWhyItsBad {get; set;}
+
         public string Source {get; set;}
     }
 
