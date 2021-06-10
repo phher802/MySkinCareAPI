@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using SkinCareAPI.Data;
+using SkinCareAPI.Models;
 
 namespace SkinCareAPI.controllers
 {   
@@ -14,10 +15,18 @@ namespace SkinCareAPI.controllers
         {
             _repository = respository;
         }
+
+        // [HttpGet]
+        // public ActionResult<IEnumerable<string>> Get()
+        // {
+        //     return new string[] {"this", "is", "hard", "coded"};
+        // }
+
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<IEnumerable<SkinCare>> GetAllSkinCares()
         {
-            return new string[] {"this", "is", "hard", "coded"};
+            var skinCareItems = _repository.GetAllSkinCares();
+            return Ok(skinCareItems);
         }
     }
 }
