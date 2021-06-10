@@ -28,5 +28,18 @@ namespace SkinCareAPI.controllers
             var skinCareItems = _repository.GetAllSkinCares();
             return Ok(skinCareItems);
         }
+
+        [HttpGet("{id}")]
+        public ActionResult<SkinCare> GetSkinCareById(int id)
+        {
+            var skinCareItem = _repository.GetSkinCareById(id);
+
+            if(skinCareItem == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(skinCareItem);
+        }
     }
 }
