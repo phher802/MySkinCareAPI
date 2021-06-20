@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using SkinCareAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
+using AutoMapper;
 
 namespace SkinCareAPI
 {
@@ -35,6 +36,7 @@ namespace SkinCareAPI
            
             //registers services to enable the use of controllers throughout app
             services.AddControllers();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<ISkinCareAPIRepo, SqlSkinCareAPIRepo>();
         }
 

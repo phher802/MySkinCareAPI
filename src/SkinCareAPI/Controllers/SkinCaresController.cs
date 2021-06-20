@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SkinCareAPI.Data;
 using SkinCareAPI.Models;
+using SkinCareAPI.Dtos;
 
 namespace SkinCareAPI.controllers
 {   
@@ -10,10 +12,12 @@ namespace SkinCareAPI.controllers
     public class SkinCaresController : ControllerBase
     {
         private readonly ISkinCareAPIRepo _repository;
+        private readonly IMapper _mapper;
 
-        public SkinCaresController(ISkinCareAPIRepo respository)
+        public SkinCaresController(ISkinCareAPIRepo respository, IMapper mapper)
         {
             _repository = respository;
+            _mapper = mapper;
         }
 
         // [HttpGet]
@@ -23,14 +27,14 @@ namespace SkinCareAPI.controllers
         // }
 
         [HttpGet]
-        public ActionResult<IEnumerable<SkinCare>> GetAllSkinCares()
+        public ActionResult<IEnumerable<SkinCareReadDto>> GetAllSkinCares()
         {
             var skinCareItems = _repository.GetAllSkinCares();
-            return Ok(skinCareItems);
+            return Ok(_mapper.Map<IEnumerable<SkinCareReadDto>>(skinCareItems));
         }
 
         [HttpGet("{id}")]
-        public ActionResult<SkinCare> GetSkinCareById(int id)
+        public ActionResult<SkinCareReadDto> GetSkinCareById(int id)
         {
             var skinCareItem = _repository.GetSkinCareById(id);
 
@@ -39,7 +43,7 @@ namespace SkinCareAPI.controllers
                 return NotFound();
             }
 
-            return Ok(skinCareItem);
+            return Ok(_mapper.Map<SkinCareReadDto>(skinCareItem));
         }
     }
 }
