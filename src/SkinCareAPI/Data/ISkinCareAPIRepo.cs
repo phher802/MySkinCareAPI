@@ -8,9 +8,9 @@ namespace SkinCareAPI.Data
         bool SaveChanges();
         IEnumerable<SkinCare> GetAllSkinCares();
         SkinCare GetSkinCareById(int id);
-        void CreateSkinCare(SkinCare cmd);
-        void UpdateSkinCare(SkinCare cmd);
-        void DeleteSkinCare(SkinCare cmd);
+        void CreateSkinCare(SkinCare sc);
+        void UpdateSkinCare(SkinCare sc);
+        void DeleteSkinCare(SkinCare sc);
 
         
     }

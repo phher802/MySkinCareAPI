@@ -6,7 +6,7 @@ namespace SkinCareAPI.Dtos
         public string IngredientName {get; set;}
 
         public string Contain {get; set;}
-
+        
         public string ReasonWhyItsBad {get; set;}
 
         public string Source {get; set;}

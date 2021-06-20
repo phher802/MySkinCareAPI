@@ -1,13 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace SkinCareAPI.Models
+namespace SkinCareAPI.Dtos
 {
-    public class SkinCare
+    public class SkinCareCreateDto
     {
-        [Key]
-        [Required]
-        public int Id {get; set;}
-
         [Required]
         public string IngredientName {get; set;}
 
@@ -18,5 +14,4 @@ namespace SkinCareAPI.Models
 
         public string Source {get; set;}
     }
-
 }

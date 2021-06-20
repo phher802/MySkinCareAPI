@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using SkinCareAPI.Models;
 using System.Linq;
+using System;
 
 namespace SkinCareAPI.Data
 {
@@ -11,12 +12,18 @@ namespace SkinCareAPI.Data
         {
             _context = context;
         }
-        public void CreateSkinCare(SkinCare cmd)
-        {
-            throw new System.NotImplementedException();
+        public void CreateSkinCare(SkinCare sc)
+        {   
+            if(sc == null)
+            {
+                throw new ArgumentNullException(nameof(sc));
+            }
+
+            _context.SkinCareItems.Add(sc);
+        
         }
 
-        public void DeleteSkinCare(SkinCare cmd)
+        public void DeleteSkinCare(SkinCare sc)
         {
             throw new System.NotImplementedException();
         }
@@ -33,10 +40,10 @@ namespace SkinCareAPI.Data
 
         public bool SaveChanges()
         {
-            throw new System.NotImplementedException();
+            return (_context.SaveChanges() >= 0);
         }
 
-        public void UpdateSkinCare(SkinCare cmd)
+        public void UpdateSkinCare(SkinCare sc)
         {
             throw new System.NotImplementedException();
         }
