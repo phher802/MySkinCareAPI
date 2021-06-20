@@ -57,5 +57,24 @@ namespace SkinCareAPI.controllers
 
             return CreatedAtRoute(nameof(GetSkinCareById), new {Id = SkinCareReadDto.Id}, SkinCareReadDto);
         }
+
+        [HttpPut("{id}")]
+        public ActionResult UpdateSkinCare(int id, SkinCareUpdateDto skinCareUpdateDto)
+        {
+            var skinCareModelFromRepo = _repository.GetSkinCareById(id);
+            
+            if(skinCareModelFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(skinCareUpdateDto, skinCareModelFromRepo);
+
+            //this following update does nothing at the moment; it is here incase Entity Framework Core implementation need 
+            //to be swapped out for another provider that may need a call to the UpdateSkinCare
+            _repository.UpdateSkinCare(skinCareModelFromRepo);
+            _repository.SaveChanges();
+            return NoContent();
+        }
     }
 }

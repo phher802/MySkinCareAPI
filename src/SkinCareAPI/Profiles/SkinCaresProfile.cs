@@ -13,8 +13,10 @@ namespace SkinCareAPI.Profiles
             //source: Models mapped to Target: SkinCareReadDto
             CreateMap<SkinCare, SkinCareReadDto>();
 
-            //source: SkinCareCreateDto bc it will be supplied in the POST request body
+            //source: SkinCareCreateDto bc it will be supplied in the POST request body, mapped to the target: skincare model
             CreateMap<SkinCareCreateDto, SkinCare>();
+
+            CreateMap<SkinCareUpdateDto, SkinCare>();
         }
     }
 }

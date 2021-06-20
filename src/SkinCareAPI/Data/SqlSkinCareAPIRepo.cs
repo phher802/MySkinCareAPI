@@ -45,7 +45,7 @@ namespace SkinCareAPI.Data
 
         public void UpdateSkinCare(SkinCare sc)
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }
