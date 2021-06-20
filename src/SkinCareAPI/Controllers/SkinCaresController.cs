@@ -33,7 +33,7 @@ namespace SkinCareAPI.controllers
             return Ok(_mapper.Map<IEnumerable<SkinCareReadDto>>(skinCareItems));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name="GetSkinCareById")]
         public ActionResult<SkinCareReadDto> GetSkinCareById(int id)
         {
             var skinCareItem = _repository.GetSkinCareById(id);
@@ -44,6 +44,18 @@ namespace SkinCareAPI.controllers
             }
 
             return Ok(_mapper.Map<SkinCareReadDto>(skinCareItem));
+        }
+
+        [HttpPost]
+        public ActionResult <SkinCareReadDto> CreateSkincare (SkinCareCreateDto skinCareCreateDto)
+        {
+            var skinCareModel = _mapper.Map<SkinCare>(skinCareCreateDto);
+            _repository.CreateSkinCare(skinCareModel);
+            _repository.SaveChanges();
+
+            var SkinCareReadDto = _mapper.Map<SkinCareReadDto>(skinCareModel);
+
+            return CreatedAtRoute(nameof(GetSkinCareById), new {Id = SkinCareReadDto.Id}, SkinCareReadDto);
         }
     }
 }
