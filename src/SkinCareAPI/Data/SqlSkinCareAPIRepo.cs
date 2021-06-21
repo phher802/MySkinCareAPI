@@ -25,7 +25,10 @@ namespace SkinCareAPI.Data
 
         public void DeleteSkinCare(SkinCare sc)
         {
-            throw new System.NotImplementedException();
+            if(sc == null){
+                throw new ArgumentNullException(nameof(sc));
+            }
+            _context.SkinCareItems.Remove(sc);
         }
 
         public IEnumerable<SkinCare> GetAllSkinCares()

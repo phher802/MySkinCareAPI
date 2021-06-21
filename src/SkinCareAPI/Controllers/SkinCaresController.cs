@@ -107,5 +107,19 @@ namespace SkinCareAPI.controllers
             return NoContent();
 
         }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteSkinCare(int id)
+        {
+            var skinCareModelFromRepo = _repository.GetSkinCareById(id);
+            if(skinCareModelFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            _repository.DeleteSkinCare(skinCareModelFromRepo);
+            _repository.SaveChanges();
+            return NoContent();
+        }
     }
 }
