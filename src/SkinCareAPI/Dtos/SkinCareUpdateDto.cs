@@ -9,6 +9,7 @@ namespace SkinCareAPI.Dtos
         public string Contain {get; set;}
 
         [Required]
+         [MaxLength(250)]
         public string ReasonWhyItsBad {get; set;}
         public string Source {get; set;}
     }

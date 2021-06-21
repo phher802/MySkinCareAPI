@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using SkinCareAPI.Data;
 using SkinCareAPI.Models;
 using SkinCareAPI.Dtos;
+using Microsoft.AspNetCore.JsonPatch;
+
 
 namespace SkinCareAPI.controllers
 {   
@@ -75,6 +77,35 @@ namespace SkinCareAPI.controllers
             _repository.UpdateSkinCare(skinCareModelFromRepo);
             _repository.SaveChanges();
             return NoContent();
+        }
+
+        [HttpPatch("{id}")]
+        public ActionResult PartialSkinCareUpdate(int id, JsonPatchDocument<SkinCareUpdateDto> patchDoc)
+        {
+            var skinCareModelFromRepo = _repository.GetSkinCareById(id);
+            
+            if(skinCareModelFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            //need to create SkinCareUpdateDto object based on the skincare object (skinCareModelFromRepo) retrieved
+            var skinCareToPatch = _mapper.Map<SkinCareUpdateDto>(skinCareModelFromRepo);
+            //apply the Patch Document received in our request body to the newly created SkinCareUpdateDto: skinCareToPatch
+            patchDoc.ApplyTo(skinCareToPatch, ModelState);
+
+            if(!TryValidateModel(skinCareToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            //SkinCareUpdateDto(SkinCareToPatch) has been successfuly updated and will use automapper to map it back 
+            //to the skincare object in DBContext
+            _mapper.Map(skinCareToPatch, skinCareModelFromRepo);
+            _repository.UpdateSkinCare(skinCareModelFromRepo);
+            _repository.SaveChanges();
+            return NoContent();
+
         }
     }
 }

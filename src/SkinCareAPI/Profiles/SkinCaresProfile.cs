@@ -17,6 +17,8 @@ namespace SkinCareAPI.Profiles
             CreateMap<SkinCareCreateDto, SkinCare>();
 
             CreateMap<SkinCareUpdateDto, SkinCare>();
+
+            CreateMap<SkinCare, SkinCareUpdateDto>();
         }
     }
 }
