@@ -8,14 +8,17 @@ using AutoMapper;
 using SkinCareAPI.Models;
 using SkinCareAPI.Data;
 using SkinCareAPI.Profiles;
+using SkinCareAPI.Dtos;
+
 
 namespace SkinCareAPI.Tests
 {
-    public class SkinCareControllerTests
+    public class SkinCareControllerTests 
     {
         [Fact]
         public void GetSkinCareItems_ReturnZeroItems_WhenDBIsEmpty()
         {
+        //Arrange
             //set up a new mock instance of the respository; only need to pass the interface definition
             var mockRepo = new Mock<ISkinCareAPIRepo>();
 
@@ -33,9 +36,12 @@ namespace SkinCareAPI.Tests
             //use the object extension on the mock to pass in a mock object instance of ISkinCareAPIRepo
             //pass the IMapper instance to the SkinCaresController constructor
             var controller = new SkinCaresController(mockRepo.Object, mapper);
-        //When
-        
-        //Then
+        //Act
+            //make a call to the GetAllSkinCares action on the controller
+            var result = controller.GetAllSkinCares();
+        //Assert
+            //assert that the Result is an OKObjectResult (equals to 200 OK)
+            Assert.IsType<OkObjectResult>(result.Result);
         }
 
         private List<SkinCare> GetSkinCares(int num)
@@ -53,5 +59,7 @@ namespace SkinCareAPI.Tests
             }
             return skinCares;
         }
+
+
     }
 }
