@@ -13,32 +13,50 @@ using SkinCareAPI.Dtos;
 
 namespace SkinCareAPI.Tests
 {
-    public class SkinCareControllerTests 
+    public class SkinCaresControllerTests : IDisposable
     {
+        Mock<ISkinCareAPIRepo> mockRepo;
+        SkinCaresProfile realProfile;
+        MapperConfiguration configuration;
+        IMapper mapper;
+
+        //set up class constructor
+        public SkinCaresControllerTests()
+        {
+            mockRepo = new Mock<ISkinCareAPIRepo>();
+            //set up a SkinCaresPRofiles instance and assign it to a MapperConfiguration
+            realProfile = new SkinCaresProfile();
+            configuration = new MapperConfiguration(cfg => cfg.AddProfile(realProfile));
+
+             //create a concrete instance of IMapper and give it the MapperConfiguration
+            mapper = new Mapper(configuration);
+        }
+        
+        public void Dispose()
+        {
+            mockRepo = null;
+            mapper = null;
+            configuration = null;
+            realProfile = null;
+        }
+
         [Fact]
         public void GetSkinCareItems_ReturnZeroItems_WhenDBIsEmpty()
         {
         //Arrange
-            //set up a new mock instance of the respository; only need to pass the interface definition
-            var mockRepo = new Mock<ISkinCareAPIRepo>();
-
+          
             //use setup method to establish how it will behave; specify interface method called GetAllSkinCares to mock
             //followed by what we want it to return, GetSkinCares(0)
             mockRepo.Setup(repo => repo.GetAllSkinCares()).Returns(GetSkinCares(0));
 
-            //set up a SkinCaresPRofiles instance and assign it to a MapperConfiguration
-            var realProfile = new SkinCaresProfile();
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(realProfile));
-
-            //create a concrete instance of IMapper and give it the MapperConfiguration
-            IMapper mapper = new Mapper(configuration);
-
             //use the object extension on the mock to pass in a mock object instance of ISkinCareAPIRepo
             //pass the IMapper instance to the SkinCaresController constructor
             var controller = new SkinCaresController(mockRepo.Object, mapper);
+
         //Act
             //make a call to the GetAllSkinCares action on the controller
             var result = controller.GetAllSkinCares();
+            
         //Assert
             //assert that the Result is an OKObjectResult (equals to 200 OK)
             Assert.IsType<OkObjectResult>(result.Result);
