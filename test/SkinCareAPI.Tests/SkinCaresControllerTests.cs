@@ -96,6 +96,18 @@ namespace SkinCareAPI.Tests
             Assert.Single(skinCares);
         }
 
+        [Fact]
+        public void GetAllSkinCares_Returns200K_WhenDBHasOneResource()
+        {
+        //Arrange
+            mockRepo.Setup(repo => repo.GetAllSkinCares()).Returns(GetSkinCares(1));
+            var controller = new SkinCaresController (mockRepo.Object, mapper);
+        //Act
+            var result = controller.GetAllSkinCares();
+        //Assert
+            Assert.IsType<OkObjectResult>(result.Result);
+        }
+
 
     }
 }
