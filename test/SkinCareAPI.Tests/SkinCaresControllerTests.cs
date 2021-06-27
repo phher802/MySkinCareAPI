@@ -56,7 +56,7 @@ namespace SkinCareAPI.Tests
         //Act
             //make a call to the GetAllSkinCares action on the controller
             var result = controller.GetAllSkinCares();
-            
+
         //Assert
             //assert that the Result is an OKObjectResult (equals to 200 OK)
             Assert.IsType<OkObjectResult>(result.Result);
@@ -76,6 +76,24 @@ namespace SkinCareAPI.Tests
                 });
             }
             return skinCares;
+        }
+
+        [Fact]
+        public void GetAllSkinCares_ReturnsOneItem_WhenDBHasOneResource()
+        {
+        //Arrange
+            //arrange mockRepo to return a single command resource
+            mockRepo.Setup( repo => repo.GetAllSkinCares()).Returns(GetSkinCares(1));
+            var controller = new SkinCaresController(mockRepo.Object, mapper);
+        //Act
+            var result = controller.GetAllSkinCares();
+        //Assert
+            //convert orginal result to an OkObjectResult in order to navigate object hierarchy
+            var OkResult = result.Result as OkObjectResult;
+            //obtain a list of SkinCaresReadDtos
+            var skinCares = OkResult.Value as List<SkinCareReadDto>;
+            //assert that we have a single result set on our SkinCares List
+            Assert.Single(skinCares);
         }
 
 
