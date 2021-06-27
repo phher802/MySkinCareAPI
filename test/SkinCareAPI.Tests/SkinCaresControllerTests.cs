@@ -108,6 +108,17 @@ namespace SkinCareAPI.Tests
             Assert.IsType<OkObjectResult>(result.Result);
         }
 
+        [Fact]
+        public void GetAllSkinCares_ReturnsCorrectType_WhenDBHasOneResource()
+        {
+        //Arrange
+            mockRepo.Setup(repo => repo.GetAllSkinCares()).Returns(GetSkinCares(1));
+            var controller = new SkinCaresController (mockRepo.Object, mapper);
+        //Act
+            var result = controller.GetAllSkinCares();
+        //Assert
+            Assert.IsType<ActionResult<IEnumerable<SkinCareReadDto>>>(result);
+        }
 
     }
 }
