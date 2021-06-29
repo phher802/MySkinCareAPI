@@ -45,7 +45,7 @@ namespace SkinCareAPI.Tests
         {
         //Arrange
           
-            //use setup method to establish how it will behave; specify interface method called GetAllSkinCares to mock
+            //use setup method to establish how it will behave; specify interface method called GetAllSkinCares to mock repo
             //followed by what we want it to return, GetSkinCares(0)
             mockRepo.Setup(repo => repo.GetAllSkinCares()).Returns(GetSkinCares(0));
 
@@ -118,6 +118,21 @@ namespace SkinCareAPI.Tests
             var result = controller.GetAllSkinCares();
         //Assert
             Assert.IsType<ActionResult<IEnumerable<SkinCareReadDto>>>(result);
+        }
+
+        [Fact]
+        public void GetSkinCareByID_REturns404NotFound_WhenNonExistentIDProvided()
+        {
+        //arragng
+            //setup the GetSkinCareById method on my mock repo to return nulll when an Id of "0" is passed in
+            mockRepo.Setup(repo => repo.GetSkinCareById(0)).Returns(() => null);
+            var controller = new SkinCaresController(mockRepo.Object, mapper);
+        
+        //act
+            var result = controller.GetSkinCareById(1);
+        
+        //assert
+            Assert.IsType<NotFoundResult>(result.Result);
         }
 
     }
