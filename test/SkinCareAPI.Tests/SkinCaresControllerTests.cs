@@ -135,5 +135,26 @@ namespace SkinCareAPI.Tests
             Assert.IsType<NotFoundResult>(result.Result);
         }
 
+        [Fact]
+        public void GetSkinCareById_REturns200OK_WhenValidIDProvided()
+        {
+        //arrange
+            //setup GetSkinCareById method on my repository to return a valid object when passing in id of "1"
+            mockRepo.Setup(repo => repo.GetSkinCareById(1)).Returns(new SkinCare 
+            {Id = 1,
+                IngredientName = "mock",
+                Contain = "mock",
+                ReasonWhyItsBad = "mock",
+                Source = "mock" });
+            
+            var controller = new SkinCaresController(mockRepo.Object, mapper);
+        
+        //Act
+            var result = controller.GetSkinCareById(1);
+        
+        //Assert
+            Assert.IsType<OkObjectResult>(result.Result);
+        }
+
     }
 }
