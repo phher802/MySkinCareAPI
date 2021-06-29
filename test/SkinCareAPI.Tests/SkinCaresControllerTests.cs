@@ -84,6 +84,8 @@ namespace SkinCareAPI.Tests
         //Arrange
             //arrange mockRepo to return a single command resource
             mockRepo.Setup( repo => repo.GetAllSkinCares()).Returns(GetSkinCares(1));
+            //use the object extension on the mock to pass in a mock object instance of ISkinCareAPIRepo
+            //pass the IMapper instance to the SkinCaresController constructor
             var controller = new SkinCaresController(mockRepo.Object, mapper);
         //Act
             var result = controller.GetAllSkinCares();
@@ -136,7 +138,7 @@ namespace SkinCareAPI.Tests
         }
 
         [Fact]
-        public void GetSkinCareById_REturns200OK_WhenValidIDProvided()
+        public void GetSkinCareById_Returns200OK_WhenValidIDProvided()
         {
         //arrange
             //setup GetSkinCareById method on my repository to return a valid object when passing in id of "1"
@@ -154,6 +156,30 @@ namespace SkinCareAPI.Tests
         
         //Assert
             Assert.IsType<OkObjectResult>(result.Result);
+        }
+
+        [Fact]
+        public void GetSkinCareById_Returns200Ok_WhenValidIDProvided()
+        {
+        //Arrange
+            mockRepo.Setup(repo => repo.GetSkinCareById(1)).Returns(new SkinCare {
+                Id = 1,
+                IngredientName = "mock",
+                Contain = "mock",
+                ReasonWhyItsBad = "mock",
+                Source = "mock"
+            });
+            //use the object extension on the mock to pass in a mock object instance of ISkinCareAPIRepo
+            //pass the IMapper instance to the SkinCaresController constructor
+            var controller = new SkinCaresController (mockRepo.Object, mapper);
+
+        //Act
+            var result = controller.GetSkinCareById(1);
+        //Assert
+            //checks to see if a SkinCareReadDto is returned; checks the validity of the externally facing contract;
+            //if the controller code is changed to return a different type, the test would fail, highlighting 
+            //a potential problem with the contract
+            Assert.IsType<ActionResult<SkinCareReadDto>>(result);
         }
 
     }
