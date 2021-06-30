@@ -247,6 +247,7 @@ namespace SkinCareAPI.Tests
         public void UpdateSkinCare_Returns404NotFound_WhenNonExistentResourceIdSubmitted()
         {
         //Arrange
+            //setup mock repository to return back null, which should trigger the 404 not found behavior
             mockRepo.Setup(repo => repo.GetSkinCareById(0)).Returns(() => null);
             var controller = new SkinCaresController(mockRepo.Object, mapper);
         
@@ -257,5 +258,18 @@ namespace SkinCareAPI.Tests
             Assert.IsType<NotFoundResult>(result);
         }
 
+        [Fact]
+        public void PartialSkinCareUpdate_Returns404NotFound_WhenNonExistentResourceIDSubmitted()
+        {
+        //Arrange
+            mockRepo.Setup(repo => repo.GetSkinCareById(0)).Returns(() => null);
+            var controller = new SkinCaresController(mockRepo.Object, mapper);
+        //Act
+            var result = controller.PartialSkinCareUpdate(0, 
+            new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument<SkinCareUpdateDto>{});
+        
+        //Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
     }
 }
