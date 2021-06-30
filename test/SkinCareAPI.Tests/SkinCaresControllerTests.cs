@@ -226,6 +226,7 @@ namespace SkinCareAPI.Tests
         public void UpdateSkinCare_Returns204NoContent_WhenValidObjectSubmitted()
         {
         //Arrange
+            //ensure that the GetSkinCareById method will return a valid source when attempting to update
             mockRepo.Setup(repo => repo.GetSkinCareById(1)).Returns(new SkinCare {
                 Id = 1,
                 IngredientName = "mock",
@@ -238,7 +239,22 @@ namespace SkinCareAPI.Tests
             var result = controller.UpdateSkinCare(1, new SkinCareUpdateDto {});
 
         //Assert
+            //check to see if 204 No content response is successful
             Assert.IsType<NoContentResult>(result);
+        }
+
+        [Fact]
+        public void UpdateSkinCare_Returns404NotFound_WhenNonExistentResourceIdSubmitted()
+        {
+        //Arrange
+            mockRepo.Setup(repo => repo.GetSkinCareById(0)).Returns(() => null);
+            var controller = new SkinCaresController(mockRepo.Object, mapper);
+        
+        //Act
+            var result = controller.UpdateSkinCare(0, new SkinCareUpdateDto{});
+        
+        //Assert
+            Assert.IsType<NotFoundResult>(result);
         }
 
     }
