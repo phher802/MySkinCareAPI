@@ -291,5 +291,21 @@ namespace SkinCareAPI.Tests
         //Assert
             Assert.IsType<NoContentResult>(result);
         }
+
+
+        [Fact]
+        public void DeleteSkinCare_Returns404NotFound_WhenNonExistentResourceIDSubmitted()
+        {
+        //Arrange
+            mockRepo.Setup(repo => repo.GetSkinCareById(0)).Returns(() => null);
+            var controller = new SkinCaresController(mockRepo.Object, mapper);
+    
+        //Act
+            var result = controller.DeleteSkinCare(0);
+    
+        //Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
     }
+
 }
