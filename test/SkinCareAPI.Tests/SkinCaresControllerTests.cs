@@ -222,5 +222,24 @@ namespace SkinCareAPI.Tests
             Assert.IsType<CreatedAtRouteResult>(result.Result);
         }
 
+        [Fact]
+        public void UpdateSkinCare_Returns204NoContent_WhenValidObjectSubmitted()
+        {
+        //Arrange
+            mockRepo.Setup(repo => repo.GetSkinCareById(1)).Returns(new SkinCare {
+                Id = 1,
+                IngredientName = "mock",
+                Contain = "mock",
+                ReasonWhyItsBad = "mock",
+                Source = "mock" });
+
+            var controller = new SkinCaresController(mockRepo.Object, mapper);
+        //Act
+            var result = controller.UpdateSkinCare(1, new SkinCareUpdateDto {});
+
+        //Assert
+            Assert.IsType<NoContentResult>(result);
+        }
+
     }
 }
