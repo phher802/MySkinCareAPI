@@ -182,5 +182,25 @@ namespace SkinCareAPI.Tests
             Assert.IsType<ActionResult<SkinCareReadDto>>(result);
         }
 
+        [Fact]
+        public void CreateSkinCare_ReturnsCorrectResourceType_WhenValidObjectSubmitted()
+        {
+        //Arrange
+            mockRepo.Setup(repo => repo.GetSkinCareById(1)).Returns(new SkinCare {
+                Id = 1,
+                IngredientName= "mock",
+                Contain = "mock",
+                ReasonWhyItsBad = "mock",
+                Source = "mock"});
+
+                var controller = new SkinCaresController(mockRepo.Object, mapper);
+        
+        //Act
+            var result = controller.CreateSkincare(new SkinCareCreateDto{});
+        
+        //Assert
+            Assert.IsType<ActionResult<SkinCareReadDto>>(result);
+        }
+
     }
 }
