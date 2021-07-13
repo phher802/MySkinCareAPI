@@ -304,7 +304,7 @@ namespace SkinCareAPI.Tests
             var result = controller.DeleteSkinCare(0);
     
         //Assert
-            Assert.IsType<OkResult>(result);
+            Assert.IsType<NotFoundResult>(result);
         }
     }
 
