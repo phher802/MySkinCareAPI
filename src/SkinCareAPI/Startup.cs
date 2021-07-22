@@ -45,8 +45,12 @@ namespace SkinCareAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, SkinCareContext context)
         {
+            //tell Azure it has to create the necesssary schema in PostgresSQL DB
+            //migrations will be applied when the app is started for the first time
+            context.Database.Migrate();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
